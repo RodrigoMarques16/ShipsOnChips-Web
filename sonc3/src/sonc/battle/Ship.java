@@ -2,6 +2,7 @@ package sonc.battle;
 
 import java.util.Set;
 
+
 /**
  * The class common to all ships. It is meant to be specialized by concrete
  * ships, those submitted by players. Concrete ships are expected to be in the

@@ -8,7 +8,7 @@ public class GameSettings {
 	public static final File PLAYERS_FILE = new File("sonc3/players.ser");
 
 	// Window scale
-	public static final double SCALE = 0.8;
+	public static final double SCALE = 1;
 
 	// World settings
 	public static final double SIDE				  = 1000;

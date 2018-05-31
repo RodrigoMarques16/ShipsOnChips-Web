@@ -13,6 +13,8 @@ import java.util.List;
 
 import sonc.battle.Ship;
 import sonc.battle.World;
+import sonc.battle.bots.SittingDuckBot;
+import sonc.battle.bots.StalkerBot;
 import sonc.client.SoncService;
 import sonc.shared.Movie;
 import sonc.shared.SoncException;
@@ -225,6 +227,17 @@ public class Manager implements Serializable, SoncService {
 		instance = null;
 		if (deleteFile)
 			playersFile.delete();
+	}
+
+	@Override
+	public Movie testBattle() throws SoncException {
+		World world = new World();
+		List<Ship> ships = new ArrayList<>();
+		StalkerBot bot1 = new StalkerBot();
+		SittingDuckBot bot2 = new SittingDuckBot();
+		ships.add(bot1);
+		ships.add(bot2);
+		return world.battle(ships);
 	}
 
 }

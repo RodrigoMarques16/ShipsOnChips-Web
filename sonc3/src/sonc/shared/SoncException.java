@@ -1,11 +1,11 @@
 package sonc.shared;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author Rodrigo Marques
  */
-public class SoncException extends Exception implements Serializable {
+public class SoncException extends Exception implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 

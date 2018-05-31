@@ -4,10 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,11 +94,12 @@ public class AgentBuilder {
 	 * Specialized loader for classes in arbitrary paths, such as temporary directory
 	 */
 	private static class ClassLoaderFromTemp extends ClassLoader {
+		
 		Class<?> findClassInTemp(Path path) throws IOException {
 			final byte[] bytes = Files.readAllBytes(path);
-
-			return defineClass(null, bytes, 0, bytes.length);
-		}
+			
+			return defineClass(null,bytes,0,bytes.length);
+		}	
 	}
 
 	/**
@@ -118,11 +116,11 @@ public class AgentBuilder {
 	 */
 	private Path wrapCode (String packageName,String name,String code) throws IOException {
 		final Path packageDir = tmp.resolve(packageName);
-		final Path codeFile = packageDir.resolve(name + ".java");
+		final Path codeFile  = packageDir.resolve(name+".java");
 		
 		Files.createDirectory(packageDir);
 		try(BufferedWriter writer = Files.newBufferedWriter(codeFile)) {
-			writer.append("package " + packageName + ";\n");
+			writer.append("package "+packageName+";\n");
 			writer.append(code);
 		}
 		
@@ -145,8 +143,8 @@ public class AgentBuilder {
 		final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		final OutputStream outStream = System.out;
 		final OutputStream errStream = new MyFilterOutputStream(System.err);
-		final int result = compiler.run(null, outStream, errStream,getCompilationArguments(prog));
-		
+		final String[] args = getCompilationArguments(prog);
+		final int result = compiler.run(System.in, outStream, errStream, args);
 		if(result != 0)
 			throw error("Compilation failed");
 		else if(matcher.find())
@@ -158,6 +156,8 @@ public class AgentBuilder {
 	static List<String> classPaths = new ArrayList<>();
 	static {
 		classPaths.add("bin");
+		classPaths.add(Paths.get(System.getProperty("user.dir"), "WEB-INF", "classes").toString());
+		classPaths.add(Paths.get(System.getProperty("user.dir"), "war", "WEB-INF", "classes").toString());
 	}
 	
 	/**
@@ -178,16 +178,18 @@ public class AgentBuilder {
 	 * @return
 	 */
 	private String[] getCompilationArguments(Path prog) {
-		final String[] args = new String[2*(classPaths.size()+1)+1];
+		final String[] args = new String[5];
 		int i=0;
-		
+		args[i++] = "-cp";
+
+		String paths = "";
 		for(String cp: classPaths) {
-			args[i++] = "-cp";
-			args[i++] = cp;
+			paths += cp + ";";
 		}
-		args[i++] = "-d";	
+		args[i++] = paths;
+		args[i++] = "-d";
 		args[i++] = tmp.toString();
-		
+
 		args[i++] = prog.toString();
 		
 		return args;

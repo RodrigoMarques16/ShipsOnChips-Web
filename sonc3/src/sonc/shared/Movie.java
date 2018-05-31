@@ -111,6 +111,10 @@ public class Movie implements IsSerializable  {
 			return status;
 		}
 
+		public String toString() {
+			return name +" , "+ status + " , " + points;			
+		}
+		
 	}
 
 	private List<Frame>	frames = new ArrayList<>();

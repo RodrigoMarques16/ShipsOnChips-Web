@@ -18,9 +18,11 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>	  -->
 
   <!-- Other module inherits                                      -->
+  <inherits name="com.google.gwt.logging.Logging"/>
+  <inherits name='edu.ycp.cs.dh.acegwt.AceGWT'/>
   <!-- Specify the app entry point class.                         -->
   <entry-point class='sonc.client.SoncUsers'/>
-
+  
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>

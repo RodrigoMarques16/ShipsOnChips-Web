@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.naming.NameNotFoundException;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import sonc.battle.Ship;
 import sonc.shared.SoncException;
 import sonc.utils.AgentBuilder;
@@ -15,7 +17,7 @@ import sonc.utils.AgentBuilder;
  * 
  * @author Rodrigo Marques
  */
-public class Player implements Serializable {
+public class Player implements Serializable, IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 

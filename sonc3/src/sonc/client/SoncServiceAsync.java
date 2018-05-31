@@ -85,4 +85,6 @@ public interface SoncServiceAsync {
 	void battle(java.util.List<java.lang.String> nicks, AsyncCallback<Movie> callback)
 			throws SoncException;
 
+	void testBattle(AsyncCallback<Movie> callback) throws SoncException;
+	
 }

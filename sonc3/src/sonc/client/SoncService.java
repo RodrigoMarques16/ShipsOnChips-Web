@@ -85,4 +85,6 @@ public interface SoncService extends RemoteService {
 	 */
 	Movie battle(java.util.List<java.lang.String> nicks) throws SoncException;
 
+	Movie testBattle() throws SoncException;
+
 }

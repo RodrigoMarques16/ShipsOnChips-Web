@@ -5,41 +5,16 @@ import sonc.game.Manager;
 import sonc.shared.FieldVerifier;
 import sonc.shared.Movie;
 import sonc.shared.SoncException;
+import sonc.utils.AgentBuilder;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server-side implementation of the RPC service.
- * 
- * -///////::::::::::::::///////:::::////////+++++++/
-://////////////+ossyyhhhhyyyyyysso+//+++++ooooooo+
-:///////////osyyyyyyyyyyyyyyyyyyyyyyso++++ooooooo+
-:////////+syyyyyyyyyyyyyyyyyyyyyyyyyyyysooooooooo+
-:++++++oyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyysoooooo+
-:+++++syyyyyyyyyyyyyyyyyyyyyyyyso+////+oyyyyssssso
-/+++oyyyyyyyyyyyyyyssosyyy:.`           `:syysssso
-/oooyyyyso++/:--.`    /yyy:               `oyyssso
-/ssyyyo              `yyyyo     -+oss+.    `syysso
-/ssyyyy`             +yyyyy`    -yyyys+     ssssso
-+syyyyy+:/+oosy.    -yyyyss:     sso+/`    .ssssso
-+syyyyyyyyyyyy/     osssssso              .ossssso
-+sssssssssssso     :ssssssss.           -/ssssssso
-+ssssssssssss-    `sssssssss/     -//+osssssssssso
-+sssssssssss+     /ssssssssso     :sssssssssssssyo
-+sssssssssss`    .sssssssssss.    .sssssssssssssys
-+ssssssssss-     +++/::-.osss/     osssssssssssyys
-+yysssssss+              :ssso     :oooooooooosyys
-+yyyysssss`             `-oooo//++ooo++++++++syyys
-+yyyyysss/   `..-:://++ooo+++++++++++++++++oyyyyys
-+yyyyyyyoo+ooo+++++++++++++++++++++++++//+syyyyyys
-+yyyyyyyyso++++++++++++++++////////////+syyyyyyyys
-+yyyyyyyyyyyso++////////////////////+oyyyyyyyyyyys
-+yyyyyyyyyyyyyysso+////////////++osyyyyyyyyyyyyyys
-+sssssssssyyyyyyyyyyyssssssssyyyyyyyyyyyyyyyyyyyyo
- * 
  */
 @SuppressWarnings("serial")
 public class SoncServiceImpl extends RemoteServiceServlet implements SoncService {
@@ -49,11 +24,13 @@ public class SoncServiceImpl extends RemoteServiceServlet implements SoncService
 	static {
 		try {
 			Manager.setPlayersFile(new File("sonc3/players.ser"));
+			AgentBuilder.addToClassPath(Paths.get(System.getProperty("user.dir"), "war", "WEB-INF", "classes").toString());
 			instance = Manager.getInstance();
 		} catch (SoncException e) {
+			System.err.println(e.toString());
 		}
 	}
-
+	
 	@Override
 	public boolean register(String userId, String password) throws SoncException {
 		if (!FieldVerifier.isValidName(userId))
@@ -102,4 +79,10 @@ public class SoncServiceImpl extends RemoteServiceServlet implements SoncService
 	public Movie battle(List<String> nicks) throws SoncException {
 		return instance.battle(nicks);
 	}
+	
+	@Override
+	public Movie testBattle() throws SoncException {
+		return instance.testBattle();
+	}
+	
 }

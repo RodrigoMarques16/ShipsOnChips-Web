@@ -1,8 +1,7 @@
 package sonc.shared;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 /**
  * <p>
  * FieldVerifier validates that the name the user enters is valid.
@@ -54,8 +53,8 @@ public class FieldVerifier {
 		if (name == null) {
 			return false;
 		}
-		Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-		Matcher m = p.matcher(name);
-		return name.length() >= 3 && !m.find();
+		RegExp p = RegExp.compile("[^a-z0-9 ]", "i");
+		MatchResult m = p.exec(name);
+		return name.length() >= 3 && m == null;
 	}
 }

@@ -31,7 +31,7 @@ import sonc.utils.SoncMath;
  */
 public class World {
 
-	private static int	  rounds			= 100;
+	private static int	  rounds			= 400;
 	private static double margin			= 100;
 	private static double width				= 1000;
 	private static double height			= 1000;
